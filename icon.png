@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f172a">
+<link rel="apple-touch-icon" href="icon.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Batara Printing</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f4f7ff;
+    color:#222;
+}
+
+.wrapper{
+    display:flex;
+    min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:260px;
+    background:white;
+    padding:25px;
+    border-right:1px solid #eee;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:40px;
+}
+
+.logoIcon{
+    width:55px;
+    height:55px;
+    border-radius:18px;
+    background:linear-gradient(135deg,#0047ff,#00a2ff);
+}
+
+.logo h1{
+    font-size:24px;
+    color:#0047ff;
+}
+
+.logo p{
+    font-size:13px;
+    color:#666;
+}
+
+.menu{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.menu button{
+    padding:15px;
+    border:none;
+    border-radius:18px;
+    background:#f4f7ff;
+    text-align:left;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.menu button:hover{
+    background:#0047ff;
+    color:white;
+}
+
+.sidebarCard{
+    background:linear-gradient(135deg,#0047ff,#006eff);
+    color:white;
+    border-radius:24px;
+    padding:20px;
+    margin-top:30px;
+}
+
+.sidebarCard h3{
+    margin-bottom:10px;
+}
+
+/* CONTENT */
+
+.content{
+    flex:1;
+    padding:25px;
+}
+
+/* HERO */
+
+.hero{
+    background:linear-gradient(135deg,#0052ff,#00a2ff);
+    border-radius:35px;
+    padding:35px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:white;
+    margin-bottom:25px;
+    overflow:hidden;
+}
+
+.heroLeft{
+    max-width:500px;
+}
+
+.heroLeft h2{
+    font-size:42px;
+    margin-bottom:15px;
+}
+
+.heroLeft p{
+    line-height:1.7;
+    opacity:0.95;
+}
+
+.heroRight{
+    background:white;
+    color:#222;
+    padding:25px;
+    border-radius:25px;
+    width:320px;
+}
+
+.heroRight h3{
+    margin-bottom:20px;
+    color:#0047ff;
+}
+
+.heroRight p{
+    margin-bottom:12px;
+}
+
+/* SUMMARY */
+
+.summary{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:18px;
+    margin-bottom:25px;
+}
+
+.box{
+    background:white;
+    padding:25px;
+    border-radius:24px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+.box h3{
+    font-size:14px;
+    color:#666;
+    margin-bottom:12px;
+}
+
+.box p{
+    font-size:28px;
+    font-weight:700;
+    color:#0047ff;
+}
+
+/* GRID */
+
+.mainGrid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+}
+
+.card{
+    background:white;
+    padding:25px;
+    border-radius:28px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+.card h2{
+    margin-bottom:20px;
+    color:#0047ff;
+}
+
+.inputBox{
+    display:flex;
+    flex-direction:column;
+    margin-bottom:15px;
+}
+
+.inputBox label{
+    margin-bottom:8px;
+    font-size:14px;
+    font-weight:600;
+}
+
+input,select{
+    padding:14px;
+    border-radius:16px;
+    border:1px solid #ddd;
+    background:#f9fbff;
+    outline:none;
+}
+
+input:focus,select:focus{
+    border-color:#0047ff;
+}
+
+.btn{
+    width:100%;
+    border:none;
+    padding:15px;
+    border-radius:18px;
+    background:linear-gradient(135deg,#0047ff,#006eff);
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.btnDanger{
+    background:linear-gradient(135deg,#ff3d3d,#ff5e5e);
+}
+
+/* TABLE */
+
+.tableWrap{
+    overflow:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:700px;
+}
+
+table th{
+    background:#0047ff;
+    color:white;
+    padding:16px;
+    text-align:left;
+}
+
+table td{
+    padding:15px;
+    border-bottom:1px solid #eee;
+}
+
+.deleteBtn{
+    background:red;
+    border:none;
+    color:white;
+    padding:10px 14px;
+    border-radius:12px;
+    cursor:pointer;
+}
+
+.footer{
+    margin-top:30px;
+    background:linear-gradient(135deg,#0047ff,#006eff);
+    color:white;
+    padding:20px;
+    border-radius:25px;
+    text-align:center;
+}
+
+@media(max-width:1100px){
+
+    .wrapper{
+        flex-direction:column;
+    }
+
+    .sidebar{
+        width:100%;
+    }
+
+    .hero{
+        flex-direction:column;
+        gap:25px;
+    }
+
+    .heroRight{
+        width:100%;
+    }
+
+    .mainGrid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+</head>
+<body>
+<!-- PASSWORD SCREEN -->
+<div id="loginScreen">
+    <div class="login-box">
+        <h2>BATARA PRINTING</h2>
+        <p>Masukkan Kata Sandi</p>
+
+        <input type="password" id="passwordInput" placeholder="Kata sandi">
+
+        <button onclick="cekPassword()">Masuk</button>
+
+        <p id="errorText"></p>
+    </div>
+</div>
+
+<style>
+#loginScreen{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:99999;
+    font-family:'Poppins',sans-serif;
+}
+
+#loginScreen::before{
+    content:'';
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.35);
+    backdrop-filter:blur(3px);
+}
+
+.login-box{
+    position:relative;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(10px);
+    padding:40px;
+    border-radius:25px;
+    width:320px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    border:1px solid rgba(255,255,255,0.2);
+}
+
+.login-box h2{
+    margin-bottom:10px;
+    color:white;
+}
+
+.login-box p{
+    color:#eee;
+    margin-bottom:20px;
+}
+
+.login-box input{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    margin-bottom:15px;
+    font-size:16px;
+    outline:none;
+}
+
+.login-box button{
+    width:100%;
+    padding:12px;
+    border:none;
+    background:#00c6ff;
+    color:white;
+    font-size:16px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.login-box button:hover{
+    background:#0094cc;
+}
+
+#errorText{
+    margin-top:10px;
+    color:#ffb3b3;
+    font-size:14px;
+}
+</style>
+
+<script>
+const passwordBenar = "batara123"; // GANTI PASSWORD DISINI
+
+function cekPassword(){
+    const input = document.getElementById("passwordInput").value;
+
+    if(input === passwordBenar){
+        document.getElementById("loginScreen").style.display = "none";
+    }else{
+        document.getElementById("errorText").innerText = "Kata sandi salah!";
+    }
+}
+</script>
+<div class="wrapper">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div>
+
+<div class="logo">
+
+<div class="logoIcon"></div>
+
+<div>
+<h1>Batara</h1>
+<p>Digital Printing</p>
+</div>
+
+</div>
+
+<div class="menu">
+
+<button>🏠 Dashboard</button>
+<button>🖨 Order Spanduk</button>
+<button>📄 Pembukuan Xerox</button>
+<button>💸 Pengeluaran</button>
+<button>📒 Riwayat Transaksi</button>
+<button onclick="resetBulanan()">🔄 Reset Bulanan</button>
+
+</div>
+
+</div>
+
+<div class="sidebarCard">
+
+<h3>Batara Printing</h3>
+
+<p>
+Aplikasi pembukuan offline modern untuk bisnis printing.
+</p>
+
+</div>
+
+</div>
+
+<!-- CONTENT -->
+
+<div class="content">
+
+<!-- HERO -->
+
+<div class="hero">
+
+<div class="heroLeft">
+
+<h2>Selamat Datang di Batara Printing</h2>
+
+<p>
+Kelola pemasukan, pengeluaran, pembukuan xerox,
+dan total meter cetak dengan tampilan modern
+dan mudah digunakan.
+</p>
+
+</div>
+
+<div class="heroRight">
+
+<h3>Pengeluaran Tetap</h3>
+
+<p>NURUL = Rp 2.500.000</p>
+<p>ALDY = Rp 2.500.000</p>
+<p>TOKO = Rp 1.350.000</p>
+
+<hr style="margin:15px 0">
+
+<h3>Total Tetap</h3>
+
+<p><b>Rp 6.350.000</b></p>
+
+</div>
+
+</div>
+
+<!-- SUMMARY -->
+
+<div class="summary">
+
+<div class="box">
+<h3>Total Pendapatan Kotor</h3>
+<p id="totalKotor">Rp 0</p>
+</div>
+
+<div class="box">
+<h3>Total Modal</h3>
+<p id="totalModal">Rp 0</p>
+</div>
+
+<div class="box">
+<h3>Total Untung</h3>
+<p id="totalUntung">Rp 0</p>
+</div>
+
+<div class="box">
+<h3>Total Pendapatan Bersih</h3>
+<p id="totalBersih">Rp 0</p>
+</div>
+
+<div class="box">
+<h3>Total Pengeluaran</h3>
+<p id="totalPengeluaranText">Rp 0</p>
+</div>
+
+<div class="box">
+<h3>Total Meter Cetak</h3>
+<p id="totalMeter">0 m²</p>
+</div>
+
+<div class="box">
+<h3>RIDUWAN</h3>
+<p id="ridu">Rp 0</p>
+</div>
+
+<div class="box">
+<h3>ALDY +10%</h3>
+<p id="aldy">Rp 0</p>
+</div>
+
+</div>
+
+<!-- GRID -->
+
+<div class="mainGrid">
+
+<!-- INPUT -->
+
+<div>
+
+<div class="card">
+
+<h2>Input Order Spanduk</h2>
+
+<div class="inputBox">
+<label>Nama Pelanggan</label>
+<input type="text" id="nama">
+</div>
+
+<div class="inputBox">
+<label>Ukuran Spanduk</label>
+<input type="text" id="ukuran" placeholder="2x1">
+</div>
+
+<div class="inputBox">
+<label>Jumlah Cetak</label>
+<input type="number" id="jumlahCetak" value="1">
+</div>
+
+<button class="btn" onclick="tambahOrder()">
+Tambah Order
+</button>
+
+</div>
+
+<div class="card" style="margin-top:25px">
+
+<h2>Input Xerox</h2>
+
+<div class="inputBox">
+<label>Jenis Bahan</label>
+
+<select id="jenisXerox">
+<option value="quantax">Quantax</option>
+<option value="bontax">Bontax</option>
+<option value="artpaper">Artpaper</option>
+</select>
+
+</div>
+
+<div class="inputBox">
+<label>Jumlah Cetak</label>
+<input type="number" id="jumlahXerox" value="1">
+</div>
+
+<button class="btn" onclick="tambahXerox()">
+Tambah Xerox
+</button>
+
+</div>
+
+<div class="card" style="margin-top:25px">
+
+<h2>Input Pengeluaran</h2>
+
+<div class="inputBox">
+<label>Keterangan</label>
+<input type="text" id="ketPengeluaran">
+</div>
+
+<div class="inputBox">
+<label>Jumlah Pengeluaran</label>
+<input type="number" id="jumlahPengeluaran">
+</div>
+
+<button class="btn btnDanger" onclick="tambahPengeluaran()">
+Tambah Pengeluaran
+</button>
+
+</div>
+
+</div>
+
+<!-- TABLE -->
+
+<div class="card">
+
+<h2>Riwayat Transaksi</h2>
+
+<div class="tableWrap">
+
+<table>
+
+<thead>
+<tr>
+<th>Nama</th>
+<th>Detail</th>
+<th>Total</th>
+<th>Aksi</th>
+</tr>
+</thead>
+
+<tbody id="riwayat"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="footer">
+© 2025 Batara Printing - Pembukuan Offline Modern
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const hargaSpanduk = 40000;
+const modalSpanduk = 25000;
+
+const pengeluaranTetap =
+2500000 + 2500000 + 1350000;
+
+let totalKotor = 0;
+let totalModal = 0;
+let totalPengeluaran = pengeluaranTetap;
+let totalMeter = 0;
+
+function rupiah(angka){
+    return "Rp " + angka.toLocaleString("id-ID");
+}
+
+function updateSummary(){
+
+    const untung =
+    totalKotor - totalModal;
+
+    const bersih =
+    untung - totalPengeluaran;
+
+    const ridu = bersih * 0.9;
+    const aldy = bersih * 0.1;
+
+    document.getElementById("totalKotor").innerText =
+    rupiah(totalKotor);
+
+    document.getElementById("totalModal").innerText =
+    rupiah(totalModal);
+
+    document.getElementById("totalUntung").innerText =
+    rupiah(untung);
+
+    document.getElementById("totalPengeluaranText").innerText =
+    rupiah(totalPengeluaran);
+
+    document.getElementById("totalBersih").innerText =
+    rupiah(bersih);
+
+    document.getElementById("totalMeter").innerText =
+    totalMeter.toFixed(2) + " m²";
+
+    document.getElementById("ridu").innerText =
+    rupiah(ridu);
+
+    document.getElementById("aldy").innerText =
+    rupiah(aldy);
+
+}
+
+function tambahOrder(){
+
+    const nama =
+    document.getElementById("nama").value;
+
+    const ukuran =
+    document.getElementById("ukuran").value;
+
+    const jumlah =
+    parseInt(document.getElementById("jumlahCetak").value);
+
+    if(!nama || !ukuran){
+        alert("Lengkapi data!");
+        return;
+    }
+
+    const split =
+    ukuran.toLowerCase().split("x");
+
+    const panjang =
+    parseFloat(split[0]);
+
+    const lebar =
+    parseFloat(split[1]);
+
+    if(isNaN(panjang) || isNaN(lebar)){
+        alert("Format ukuran salah!");
+        return;
+    }
+
+    const meter =
+    panjang * lebar * jumlah;
+
+    const totalHarga =
+    meter * hargaSpanduk;
+
+    const totalModalCetak =
+    meter * modalSpanduk;
+
+    totalKotor += totalHarga;
+    totalModal += totalModalCetak;
+    totalMeter += meter;
+
+    tambahRiwayat(
+        nama,
+        ukuran + " x " + jumlah + " cetak",
+        totalHarga,
+        totalModalCetak,
+        meter
+    );
+
+    updateSummary();
+
+}
+
+function tambahXerox(){
+
+    const jenis =
+    document.getElementById("jenisXerox").value;
+
+    const jumlah =
+    parseInt(document.getElementById("jumlahXerox").value);
+
+    let jual = 0;
+    let modal = 0;
+
+    if(jenis == "quantax"){
+        jual = 20000;
+        modal = 15000;
+    }
+
+    if(jenis == "bontax"){
+        jual = 15000;
+        modal = 10000;
+    }
+
+    if(jenis == "artpaper"){
+        jual = 10000;
+        modal = 6000;
+    }
+
+    const totalHarga = jual * jumlah;
+    const totalModalCetak = modal * jumlah;
+
+    totalKotor += totalHarga;
+    totalModal += totalModalCetak;
+
+    tambahRiwayat(
+        "XEROX",
+        jenis + " x " + jumlah,
+        totalHarga,
+        totalModalCetak,
+        0
+    );
+
+    updateSummary();
+
+}
+
+function tambahPengeluaran(){
+
+    const ket =
+    document.getElementById("ketPengeluaran").value;
+
+    const jumlah =
+    parseInt(document.getElementById("jumlahPengeluaran").value);
+
+    if(!ket || !jumlah){
+        alert("Lengkapi pengeluaran!");
+        return;
+    }
+
+    totalPengeluaran += jumlah;
+
+    tambahRiwayat(
+        "PENGELUARAN",
+        ket,
+        -jumlah,
+        0,
+        0
+    );
+
+    updateSummary();
+
+}
+
+function tambahRiwayat(
+nama,
+detail,
+total,
+modal,
+meter
+){
+
+    const tbody =
+    document.getElementById("riwayat");
+
+    const tr =
+    document.createElement("tr");
+
+    tr.innerHTML = `
+    <td>${nama}</td>
+    <td>${detail}</td>
+    <td>${rupiah(total)}</td>
+    <td>
+    <button class="deleteBtn">
+    Hapus
+    </button>
+    </td>
+    `;
+
+    tr.querySelector("button").onclick =
+    function(){
+
+        totalKotor -= total;
+        totalModal -= modal;
+        totalMeter -= meter;
+
+        if(nama == "PENGELUARAN"){
+            totalPengeluaran += total;
+        }
+
+        tr.remove();
+
+        updateSummary();
+
+    };
+
+    tbody.prepend(tr);
+
+}
+
+function resetBulanan(){
+
+    const yakin =
+    confirm("Yakin reset semua pembukuan?");
+
+    if(!yakin) return;
+
+    totalKotor = 0;
+    totalModal = 0;
+    totalMeter = 0;
+    totalPengeluaran = pengeluaranTetap;
+
+    document.getElementById("riwayat").innerHTML = "";
+
+    updateSummary();
+
+}
+
+updateSummary();
+
+</script>
+
+</body>
+</html>
