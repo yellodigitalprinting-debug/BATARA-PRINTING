@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Batara Printing - Pembukuan Offline</title>
+
+<style>
+/* ===== CSS KAMU TETAP (TIDAK DIUBAH) ===== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f3f6fb;
+    display:flex;
+    min-height:100vh;
+}
+
+.sidebar{
+    width:250px;
+    background:#0b2d89;
+    color:white;
+    padding:25px;
+}
+
+.logo{
+    font-size:28px;
+    font-weight:bold;
+    margin-bottom:40px;
+    line-height:40px;
+}
+
+.menu button{
+    width:100%;
+    padding:14px;
+    border:none;
+    margin-bottom:12px;
+    border-radius:10px;
+    background:rgba(255,255,255,0.1);
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+    text-align:left;
+    font-size:15px;
+}
+
+.menu button:hover{
+    background:#1e4ed8;
+}
+
+.main{
+    flex:1;
+    padding:25px;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.topbar h1{
+    color:#0b2d89;
+}
+
+.date{
+    background:white;
+    padding:10px 15px;
+    border-radius:10px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    margin-bottom:25px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.06);
+}
+
+.card h3{
+    color:#666;
+    margin-bottom:10px;
+    font-size:16px;
+}
+
+.card h2{
+    color:#0b2d89;
+    font-size:28px;
+}
+
+.content{
+    display:grid;
+    grid-template-columns:350px 1fr;
+    gap:20px;
+}
+
+.form-box,
+.table-box{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.06);
+}
+
+.form-box h2,
+.table-box h2{
+    margin-bottom:20px;
+    color:#0b2d89;
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:8px;
+    font-size:14px;
+}
+
+.form-group input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    font-size:15px;
+}
+
+.result{
+    background:#f3f6fb;
+    padding:15px;
+    border-radius:10px;
+    margin-top:15px;
+    line-height:35px;
+}
+
+.result span{
+    font-weight:bold;
+    color:#0b2d89;
+}
+
+button.submit{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:#0b2d89;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    margin-top:20px;
+}
+
+button.submit:hover{
+    background:#123cb1;
+}
+
+.table-wrapper{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+table th{
+    background:#0b2d89;
+    color:white;
+    padding:12px;
+    font-size:14px;
+}
+
+table td{
+    padding:12px;
+    border-bottom:1px solid #eee;
+    font-size:14px;
+}
+
+.profit{
+    color:green;
+    font-weight:bold;
+}
+
+.del-btn{
+    background:red;
+    color:white;
+    border:none;
+    padding:6px 10px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.xerox-box{
+    margin-top:20px;
+    padding:15px;
+    background:#eef3ff;
+    border-radius:10px;
+}
+
+.xerox-box button{
+    width:100%;
+    margin-top:8px;
+    padding:10px;
+    border:none;
+    border-radius:8px;
+    background:#1e4ed8;
+    color:white;
+    cursor:pointer;
+}
+
+.xerox-box button:hover{
+    background:#0b2d89;
+}
+
+@media(max-width:900px){
+body{
+    flex-direction:column;
+}
+.sidebar{width:100%;}
+.content{grid-template-columns:1fr;}
+}
+</style>
+</head>
+
+</div>
+<body>
+
+<div class="sidebar">
+    <div class="logo">BATARA<br>PRINTING</div>
+    <div class="menu">
+        <button>🏠 Dashboard</button>
+        <button>💰 Transaksi</button>
+        <button>🖨 Order Percetakan</button>
+        <button>📠 Cetak Xerox</button>
+        <button>👨‍💼 Gaji Karyawan</button>
+        <button>📊 Laporan</button>
+	<!-- TAMBAHAN TOMBOL KIRIM WA (taruh di bawah cards atau di atas table-box) -->
+<div style="margin:15px 0;">
+<button onclick="kirimLaporanWA()" style="
+padding:12px 15px;
+background:green;
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-size:15px;
+">
+📤 Kirim Laporan ke WhatsApp
+</button>
+</div>
+        <button>⚙ Pengaturan</button>
+        <button onclick="resetManual()">🧹 Reset Pembukuan</button>
+    </div>
+</div>
+
+<div class="main">
+
+<div class="topbar">
+<h1>PEMBUKUAN BATARA PRINTING</h1>
+<div class="date" id="tanggal"></div>
+</div>
+
+<div class="cards">
+<div class="card"><h3>Total Kotor</h3><h2 id="totalMasuk">Rp 0</h2></div>
+<div class="card"><h3>Total Modal</h3><h2 id="totalModal">Rp 0</h2></div>
+<div class="card"><h3>Total Laba Bersih</h3><h2 id="totalLaba">Rp 0</h2></div>
+<div class="card"><h3>Total Pengeluaran</h3><h2 id="totalPengeluaran">Rp 0</h2></div>
+<div class="card"><h3>RIDUWAN</h3><h2 id="ownerProfit">Rp 0</h2></div>
+<div class="card"><h3>ALDY</h3><h2 id="aldyProfit">Rp 0</h2></div>
+</div>
+
+<div class="content">
+
+<div class="form-box">
+
+<h2>Tambah Pengeluaran</h2>
+
+<div class="form-group">
+<label>Nama Pengeluaran</label>
+<input type="text" id="namaPengeluaran">
+</div>
+
+<div class="form-group">
+<label>Jumlah Pengeluaran</label>
+<input type="number" id="jumlahPengeluaran">
+</div>
+
+<button class="submit" onclick="tambahPengeluaran()">Simpan Pengeluaran</button>
+
+<br><br><hr><br>
+
+<h2>Tambah Transaksi</h2>
+
+<div class="form-group">
+<label>Nama Pelanggan</label>
+<input type="text" id="nama">
+</div>
+
+<div class="form-group">
+<label>Ukuran</label>
+<input type="text" id="ukuran" oninput="hitung()">
+</div>
+
+<div class="result">
+Luas: <span id="luas">0</span><br>
+Modal: <span id="modal">Rp 0</span><br>
+Kotor: <span id="kotor">Rp 0</span><br>
+Laba: <span id="bersih">Rp 0</span>
+</div>
+
+<button class="submit" onclick="simpan()">Simpan Transaksi</button>
+
+<br><br><hr>
+
+<div class="xerox-box">
+<h2>📠 Cetak Xerox</h2>
+
+<div class="form-group">
+<label>Jumlah Cetak</label>
+<input type="number" id="jumlahXerox">
+</div>
+
+<button onclick="addXerox('Stiker Quantax',15000,5000)">Stiker Quantax</button>
+<button onclick="addXerox('Stiker Bontax',10000,5000)">Stiker Bontax</button>
+<button onclick="addXerox('Artpaper',6000,4000)">Artpaper</button>
+</div>
+
+</div>
+
+<div class="table-box">
+<h2>Riwayat</h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>Pelanggan</th>
+<th>Ukuran</th>
+<th>Kotor</th>
+<th>Modal</th>
+<th>Laba</th>
+<th>Aksi</th>
+</tr>
+</thead>
+<tbody id="tableData"></tbody>
+</table>
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+
+const hargaJual = 40000;
+const modalCetak = 25000;
+
+let totalMasuk = 0;
+let totalModalSemua = 0;
+let totalLaba = 0;
+let totalPengeluaran = 0;
+
+function rupiah(n){
+    return "Rp " + n.toLocaleString("id-ID");
+}
+
+window.onload = function(){
+    let data = localStorage.getItem("bataraData");
+    if(data){
+        let d = JSON.parse(data);
+        totalMasuk = d.totalMasuk || 0;
+        totalModalSemua = d.totalModalSemua || 0;
+        totalLaba = d.totalLaba || 0;
+        totalPengeluaran = d.totalPengeluaran || 0;
+        document.getElementById("tableData").innerHTML = d.table || "";
+    }
+
+    updateUI();
+
+    let now = new Date();
+    document.getElementById("tanggal").innerText =
+    now.toLocaleDateString("id-ID",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+}
+
+function updateUI(){
+    document.getElementById("totalMasuk").innerText = rupiah(totalMasuk);
+    document.getElementById("totalModal").innerText = rupiah(totalModalSemua);
+    document.getElementById("totalLaba").innerText = rupiah(totalLaba);
+    document.getElementById("totalPengeluaran").innerText = rupiah(totalPengeluaran);
+    document.getElementById("ownerProfit").innerText = rupiah(totalLaba * 0.9);
+    document.getElementById("aldyProfit").innerText = rupiah(totalLaba * 0.1);
+}
+
+function save(){
+    localStorage.setItem("bataraData", JSON.stringify({
+        totalMasuk,
+        totalModalSemua,
+        totalLaba,
+        totalPengeluaran,
+        table: document.getElementById("tableData").innerHTML
+    }));
+}
+
+function hapusBaris(btn){
+    let row = btn.parentElement.parentElement;
+    let cells = row.children;
+
+    let kotor = parseFloat(cells[2].innerText.replace(/[^\d]/g,''));
+    let modal = parseFloat(cells[3].innerText.replace(/[^\d]/g,''));
+    let laba = parseFloat(cells[4].innerText.replace(/[^\d]/g,''));
+
+    totalMasuk -= kotor;
+    totalModalSemua -= modal;
+    totalLaba -= laba;
+
+    row.remove();
+    updateUI();
+    save();
+}
+
+/* ===== XEROX ===== */
+function addXerox(nama, modal, untung){
+
+    let jumlah = parseInt(document.getElementById("jumlahXerox").value);
+    if(isNaN(jumlah) || jumlah <= 0){
+        return alert("Masukkan jumlah cetak dulu!");
+    }
+
+    let totalModal = modal * jumlah;
+    let totalUntung = untung * jumlah;
+    let totalKotor = (modal + untung) * jumlah;
+
+    totalMasuk += totalKotor;
+    totalModalSemua += totalModal;
+    totalLaba += totalUntung;
+
+    document.getElementById("tableData").innerHTML += `
+    <tr>
+        <td>${nama} (${jumlah} pcs)</td>
+        <td>XEROX</td>
+        <td>${rupiah(totalKotor)}</td>
+        <td>${rupiah(totalModal)}</td>
+        <td class="profit">${rupiah(totalUntung)}</td>
+        <td><button class="del-btn" onclick="hapusBaris(this)">Hapus</button></td>
+    </tr>`;
+
+    updateUI();
+    save();
+    document.getElementById("jumlahXerox").value = "";
+}
+
+/* ===== TRANSAKSI ===== */
+function simpan(){
+    let nama = document.getElementById("nama").value;
+    let u = document.getElementById("ukuran").value;
+    if(!nama||!u) return alert("isi data");
+
+    let [l,t]=u.split("x").map(Number);
+    let luas=l*t;
+    let kotor=luas*hargaJual;
+    let modal=luas*modalCetak;
+    let laba=kotor-modal;
+
+    totalMasuk+=kotor;
+    totalModalSemua+=modal;
+    totalLaba+=laba;
+
+    document.getElementById("tableData").innerHTML += `
+    <tr>
+        <td>${nama}</td>
+        <td>${u}</td>
+        <td>${rupiah(kotor)}</td>
+        <td>${rupiah(modal)}</td>
+        <td class="profit">${rupiah(laba)}</td>
+        <td><button class="del-btn" onclick="hapusBaris(this)">Hapus</button></td>
+    </tr>`;
+
+    updateUI();
+    save();
+}
+
+/* ===== PENGELUARAN ===== */
+function tambahPengeluaran(){
+    let n=document.getElementById("namaPengeluaran").value;
+    let j=parseInt(document.getElementById("jumlahPengeluaran").value);
+    if(!n||isNaN(j)) return alert("isi lengkap");
+
+    totalPengeluaran+=j;
+    totalLaba-=j;
+
+    document.getElementById("tableData").innerHTML += `
+    <tr>
+        <td><b>${n}</b></td>
+        <td>-</td>
+        <td>-${rupiah(j)}</td>
+        <td>-</td>
+        <td class="profit">-${rupiah(j)}</td>
+        <td><button class="del-btn" onclick="hapusBaris(this)">Hapus</button></td>
+    </tr>`;
+
+    updateUI();
+    save();
+}
+
+/* ===== RESET ===== */
+function resetAll(){
+    totalMasuk = 0;
+    totalModalSemua = 0;
+    totalLaba = 0;
+    totalPengeluaran = 0;
+    document.getElementById("tableData").innerHTML = "";
+    localStorage.removeItem("bataraData");
+    updateUI();
+}
+
+function resetManual(){
+    if(confirm("Yakin reset semua?")){
+        resetAll();
+    }
+}
+
+/* ===== HITUNG ===== */
+function hitung(){
+    let u = document.getElementById("ukuran").value;
+    if(!u.includes("x")) return;
+
+    let [l,t] = u.split("x").map(Number);
+    if(isNaN(l)||isNaN(t)) return;
+
+    let luas = l*t;
+    let kotor = luas*hargaJual;
+    let modal = luas*modalCetak;
+    let laba = kotor-modal;
+
+    document.getElementById("luas").innerText = luas;
+    document.getElementById("modal").innerText = rupiah(modal);
+    document.getElementById("kotor").innerText = rupiah(kotor);
+    document.getElementById("bersih").innerText = rupiah(laba);
+}
+function kirimLaporanWA(){
+
+    let tabel = document.getElementById("tableData").innerText;
+
+    let totalMasukText = document.getElementById("totalMasuk").innerText;
+    let totalModalText = document.getElementById("totalModal").innerText;
+    let totalLabaText = document.getElementById("totalLaba").innerText;
+    let totalPengeluaranText = document.getElementById("totalPengeluaran").innerText;
+    let owner = document.getElementById("ownerProfit").innerText;
+    let aldy = document.getElementById("aldyProfit").innerText;
+
+    let teks = `
+📊 *LAPORAN BATARA PRINTING* 📊
+
+💰 Total Kotor: ${totalMasukText}
+📦 Total Modal: ${totalModalText}
+📈 Total Laba: ${totalLabaText}
+💸 Total Pengeluaran: ${totalPengeluaranText}
+
+👨‍💼 Owner (90%): ${owner}
+👨‍💻 Aldy (10%): ${aldy}
+
+📋 Detail Transaksi:
+${tabel}
+    `;
+
+    let nomor = "6285705971708"; // WA kamu
+
+    let url = "https://wa.me/" + nomor + "?text=" + encodeURIComponent(teks);
+
+    window.open(url, "_blank");
+}
+</script>
+
+</body>
+</html>
